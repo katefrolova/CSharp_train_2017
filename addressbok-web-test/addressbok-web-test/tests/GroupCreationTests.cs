@@ -33,7 +33,7 @@ namespace WebAddressbookTests
         }
 
 
-        [Test, TestCaseSource("GroupDataFromExcelFile")]
+        [Test, TestCaseSource("RandomGroupDataProvider")]
         public void GroupCreationTest(GroupData group)
         {
 

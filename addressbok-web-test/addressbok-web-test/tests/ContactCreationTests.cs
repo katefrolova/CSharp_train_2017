@@ -14,7 +14,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : TestBase
+    public class ContactCreationTests : ContactTestBase
     {
         public static IEnumerable<ContactData> RandomContactDataProvider()
         {
@@ -26,19 +26,19 @@ namespace WebAddressbookTests
             return contacts;
         }
 
-        [Test, TestCaseSource("ContactDataFromJsonFile")]
+        [Test, TestCaseSource("RandomContactData")]
         public void ContactCreationTest(ContactData contact)
         {
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
 
             app.Contacts.CreateContact(contact);
 
 
-            //List<ContactData> newContacts = app.Contacts.GetContactList();
-            //oldContacts.Add(contact);
-            //oldContacts.Sort();
-            //newContacts.Sort();
-            //Assert.AreEqual(oldContacts, newContacts);
+            List<ContactData> newContacts = ContactData.GetAll();
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
         public static IEnumerable<ContactData> ContactDataFromJsonFile()
         {
