@@ -124,6 +124,18 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper ContactModify(ContactData contactId, ContactData newData)
+        {
+            manager.Navigator.GoToHomePage();
+            InitContactModification(contactId);
+            FillContactForm(newData);
+            SubmitContactModification();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+
+
 
         public ContactHelper ReturnToHomePage()
         {
@@ -177,11 +189,20 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper InitContactModification(int t)
+
+
+        //public ContactHelper InitContactModification(int t)
+        //{
+        //    driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + t + "]")).Click();
+        //    return this;
+        //}
+        public void InitContactModification(int contactId)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + t + "]")).Click();
-            return this;
+            var by = By.XPath($"(//img[@title=\"Edit\"])[position()={contactId + 1}]");
+            new WebDriverWait(driver, TimeSpan.FromSeconds(30)).Until(ExpectedConditions.ElementExists(by));
+            driver.FindElement(@by).Click();
         }
+
 
         public ContactHelper SubmitContactModification()
         {
@@ -290,7 +311,7 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToHomePage();
             ClearGroupFilter();
-            SelectContactt(contact.Id);
+            SelectContact(contact.Id);
             SeletGroupToAdd(group.Name);
             CommitAddingContactToGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
@@ -307,7 +328,7 @@ namespace WebAddressbookTests
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
         }
 
-        private void SelectContactt(string contactId)
+        private void SelectContact(string contactId)
         {
             driver.FindElement(By.Id(contactId)).Click();
         }
